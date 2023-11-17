@@ -1,0 +1,17 @@
+.text-warning-800 {
+    color: #EF6C00 !important;
+}
+.border-left-warning-800 {
+    border-left: 0.25rem solid #EF6C00 !important;
+}
+.btn-warning-800 {
+    color: #fff;
+    background-color: #EF6C00;
+    border-color: #EF6C00;
+}
+
+.btn-warning-800:hover {
+    color: #fff;
+    background-color: #EF6C00;
+    border-color: #EF6C00;
+}
