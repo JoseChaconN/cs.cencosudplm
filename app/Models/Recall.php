@@ -14,13 +14,13 @@ class Recall extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
     protected $guarded = [];
-    public function tienda(): BelongsTo
+    public function tienda(): HasOne
     {        
-        return $this->belongsTo(Tienda::class,'id_local','id');
+        return $this->hasOne(Tienda::class,'id_local','id');
     }
-    public function responsable(): BelongsTo
+    public function responsable(): HasOne
     {
-        return $this->belongsTo(User::class,'id_responsable','id');
+        return $this->hasOne(User::class,'id_responsable','id');
     }
     public function recall_respuesta(): BelongsTo
     {

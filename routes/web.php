@@ -71,7 +71,8 @@ Route::match(['get','post'],'/reclamos/aprobar', [ReclamosController::class, 're
 Route::match(['get','post'],'/reclamos/proceso', [ReclamosController::class, 'reclamos_proceso'])->name('listProcesoReclamo');
 #Route::get('/reclamos/cerrado', [ReclamosController::class, 'reclamos_cerrado'])->name('listCerradoReclamo');
 Route::match(['get','post'],'/reclamos/cerrado', [ReclamosController::class, 'reclamos_cerrado'])->name('listCerradoReclamo');
-
+Route::post('/reclamos/buscar/', [ReclamosController::class, 'reclamo_buscar'])->name('reclamos.buscar');
+Route::patch('/reclamos/rechazar/{id}', [ReclamosController::class, 'reclamo_rechazar'])->name('reclamos.rechazar');
 
 Route::get('/reclamos/proceso/{id}', [ReclamosController::class, 'reclamo_proceso'])->name('procesoReclamo');
 Route::get('/reclamos/pdf/{id}', [ReclamosController::class, 'reclamo_pdf'])->name('pdfReclamo');
@@ -99,9 +100,8 @@ Route::get('/recalls/pdf/{id}', [RecallsController::class, 'recall_pdf'])->name(
 Route::get('/recalls/pdf/respuesta/{id}', [RecallsController::class, 'respuesta_recall_pdf'])->name('pdfRespuestaRecall');
 Route::patch('/recalls/proceso/guardar/{id}', [RecallsController::class, 'guardar_recall_proceso'])->name('guardarRecallProceso');
 Route::get('/recalls/proceso/detalle/{id}', [RecallsController::class, 'recall_detalle_proceso'])->name('procesoDetalleRecall');
-
-
 Route::get('/recalls/proceso/respuesta/{id}', [RecallsController::class, 'recall_proceso_respuesta'])->name('respuestaRecall');
+Route::post('/recalls/notificar/nuevo', [RecallsController::class, 'recall_notificar_nuevo'])->name('recall.notificar.nuevo');
 #ELIMINAR EDITAR RESPUESTA RECALL
 Route::get('/recalls/proceso/respuesta/edit/{id}', [RecallsController::class, 'recall_proceso_respuesta_edit'])->name('respuestaRecallEdit');
 Route::post('/recalls/proceso/respuesta/guardar', [RecallsController::class, 'guardar_recall_respuesta'])->name('guardarRespuestaRecall');

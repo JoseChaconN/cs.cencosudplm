@@ -214,7 +214,7 @@
 	        			<div class="form-group row">
 							<label class="col-sm-4 col-form-label font-weight-bold">Aplica Carnes y Fab. de Cecinas:</label>
 							<div class="col-sm-8">
-								<select name="aplica_carnes" class="form-control">
+								<select name="aplica_carnes" id="aplica_carnes" class="form-control">
 							        <option value="">Seleccione</option>
 							        <option value="sí">Sí</option>
 							        <option value="no">No</option>
@@ -222,7 +222,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12 aplica_carnes" style="display:none;">
+					<div class="col-md-12" id="aplicaCarneDiv" style="display:none;">
 						<div class="col-md-12">
 							<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Exclusivo Carnes y Fab. de Cecinas</h6>
 							<small class="form-text text-muted">En caso que aplique al reclamo.</small>
@@ -506,12 +506,12 @@
 			$('#aplicaTemperaturaDiv').hide();
 		}
 	});
-	$('#aplica_temperatura').change(function (e) { 
-		$('#aplicaTemperaturaDiv').hide();
+	$('#aplica_carnes').change(function (e) { 
+		$('#aplicaCarneDiv').hide();
 		if(this.value == 'sí'){
-			$('#aplicaTemperaturaDiv').show();
+			$('#aplicaCarneDiv').show();
 		}else{
-			$('#aplicaTemperaturaDiv').hide();
+			$('#aplicaCarneDiv').hide();
 		}
 	});
 </script>

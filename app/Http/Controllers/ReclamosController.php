@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\RespuestasReclamoExport;
 use App\Notifications\ReclamosRespuestasNotification;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReclamosController extends BaseController
@@ -199,9 +200,12 @@ class ReclamosController extends BaseController
         #SI EL RECLAMO VIENE DE CUALQUIER USUARIO NO TIENDA DEBE ENVIAR LA VISTA DE RECLAMO EN PROCESO
         
         if($status == 'APROBAR'){
-            return to_route('guardado')->with('status','¡Reclamo guardado correctamente!');
+            return redirect('/')->with('notification_type','success')
+            ->with('notification_message', '¡Reclamo guardado correctamente!')
+            ->with('notification_url_button', route('pdfReclamo',$reclamoNuevo->id))		
+            ->with('notification_text_button', 'Descargar PDF de reclamo');;
         }
-        return redirect()->route('procesoReclamo', ['id' => $reclamoNuevo->id])->with('status', '¡Reclamo guardado correctamente!');
+        return redirect()->route('procesoReclamo', ['id' => $reclamoNuevo->id])->with('status', '¡Reclamo guardado correctamente!');#->with('status', '¡Respuesta de Recall guardada correctamente!');;
     }
     public function reclamos_proceso(Request $request)
     {
@@ -295,21 +299,21 @@ class ReclamosController extends BaseController
     public function reclamos_aprobar(Request $request)
     {
         $data=[];
-        /*$data['reclamos'] = Reclamo::join('tiendas', 'reclamos.id_local', '=', 'tiendas.id')
-                                        ->join('users', 'reclamos.id_responsable', '=', 'users.id')
-                                        ->select('reclamos.*', 'tiendas.nombre as nombre_tienda', 'tiendas.codigo as codigo_tienda', 'users.name as nombre_usuario', 'users.last_name as apellido_usuario')
-                                        ->where('reclamos.status' , 'PROCESO')
-                                        ->where('id_responsable' , '!=' ,  Auth::user()->id)
-                                        ->where('fecha_local' , 'LIKE' , $data['ano'].'-'.$data['mes'].'%')
-                                        #->where('interno_externo' , 'LIKE' , '%'.$data['tipoReclamo'].'%')
-                                        #->where('nombre_producto' , 'LIKE' , '%'.$data['nombreProd'].'%')
-                                        #->where('ean_producto' , 'LIKE' , '%'.$data['eanProd'].'%')
-                                        #->where('sap_producto' , 'LIKE' , '%'.$data['sapProd'].'%')
-                                        #->where('rut_cliente' , 'LIKE' , '%'.$data['rutCliente'].'%')
-                                        #->where('nombre_cliente' , 'LIKE' , '%'.$data['nomApeCliente'].'%')
-                                        ->get();*/
-        $reclamos = Reclamo::with('tienda','responsable')->where('reclamos.status' , 'APROBAR')->whereIn('id_local',session('u_tiendas_sup'))->get();
-        $data['reclamos'] = $reclamos;
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $reclamos_aprobar = Reclamo::with('tienda','responsable')->where('reclamos.status' , 'APROBAR');
+        $reclamos_rechazados = Reclamo::with('tienda','responsable')->where('reclamos.status' , 'RECHAZADO');
+        if($user->hasRole('tienda')){
+            $reclamos_aprobar->where('id_local',session('u_id_tienda'));
+            $reclamos_rechazados->where('id_local',session('u_id_tienda'));
+        }
+        if($user->hasRole('supervisor') || $user->hasRole('administrador')){
+            $reclamos_aprobar->whereIn('id_local',session('u_tiendas_sup'));
+            $reclamos_rechazados->whereIn('id_local',session('u_tiendas_sup'));
+        }
+        
+        $data['reclamos_aprobar'] = $reclamos_aprobar->get();
+        $data['reclamos_rechazados'] = $reclamos_rechazados->get();
         
         return view('reclamos.list-aprobar-reclamo',$data);
     }
@@ -359,9 +363,17 @@ class ReclamosController extends BaseController
             foreach ($request->file('imagen_reclamo') as $archivo) {
                 // Procesar y guardar archivo
             }
-        }*/
+        }*/        
         $reclamo = Reclamo::find($id);
         $status_original = $reclamo->getOriginal('status');
+        if(strtoupper($request->input('status')) == 'APROBADO'){
+            $reclamo->update([
+                'status' => 'PROCESO',
+                'id_aprobador' => Auth::user()->id,
+            ]);
+            return redirect()->route('listProcesoReclamo')->with('notification_type', 'success')->with('notification_message', '¡Reclamo aprobado con exito!');
+            #return to_route('guardado')->with('status','¡Reclamo guardado correctamente!');
+        }
         $reclamo->update([
             'status' => strtoupper($request->input('status')),
             'fecha_local' => $request->input('fecha_local'),
@@ -466,7 +478,7 @@ class ReclamosController extends BaseController
         if(strtoupper($request->input('status')) == 'RECHAZADO'){
             return redirect()->route('listAprobarReclamo')->with('status', '¡Reclamo rechazado correctamente!');
              #return to_route('guardado')->with('status','¡Reclamo guardado correctamente!');
-         }
+        }
         ####RECLAMO CERRADO####
         $reclamo->update([
             'status' => strtoupper($request->input('status')),
@@ -488,7 +500,7 @@ class ReclamosController extends BaseController
         }
         return view('reclamos.cerrado-reclamo',$data);
     }
-    function reclamo_PDF($id)
+    public function reclamo_PDF($id)
     {
         #User::with('sections','cc','tiendas')->findOrFail($id);
         $reclamo = Reclamo::with('tienda','origen_reclamo','seccion','responsable')->findOrFail($id);
@@ -519,26 +531,50 @@ class ReclamosController extends BaseController
         #return $pdf->stream();
         return $pdf->download('reclamo_'.$reclamo->id.'.pdf');
     }
-    function respuestas_reclamo($id){
+    public function respuestas_reclamo($id){
 
         $data['data'] = Reclamo::with('reclamos_local_problema.responsable','reclamos_local_problema.tienda')->find($id);
         return Excel::download(new RespuestasReclamoExport($data), 'nombre_archivo1.xlsx');
         #return view('exports.invoices',$data);
     }
-    function reclamo_notificar_respuestas(Request $request){
+    public function reclamo_notificar_respuestas(Request $request){
         #id_reclamo
         #local
-        $usuarios = User::whereIn('id', [1,5])->get(); // Obtén los usuarios a notificar
-        /* $usuarios = User::with('roles')
+        #$usuarios = User::whereIn('id', [1,5])->get(); // Obtén los usuarios a notificar
+        $usuarios = User::with('roles')
                                     ->whereIn('area', $request->input('local'))
                                     ->whereHas('roles', function ($query) {
                                         $query->whereIn('name', ['supervisor', 'tecnólogo']);
-                                    })->get();  */// Obtén los usuarios a notificar
+                                    })->get();  // Obtén los usuarios a notificar
         $reclamo = Reclamo::with('tienda','seccion')->find($request->input('id_reclamo'));
         foreach ($usuarios as $usuario) {
             $usuario->notify(new ReclamosRespuestasNotification($usuario,$reclamo));
         }
         return response()->json(['success' => TRUE]);
+    }
+    #public function update(Request $request,string $id)
+    public function reclamo_rechazar(Request $request,string $id){
+        try {
+            DB::transaction(function () use ($request, &$id) {
+                $reclamo = Reclamo::find($id);
+                $reclamo->update([
+                    'status' => 'RECHAZADO',
+                    'id_responsable_rechazo' => Auth::user()->id,
+                    'fecha_rechazo' => date('Y-m-d'),
+                    'mensaje_rechazo' => $request->input('mensaje_rechazo'),
+                ]);
+            });
+            return redirect()->route('listAprobarReclamo')->with('notification_type', 'success')->with('notification_message', '¡Reclamo rechazado con exito!');
+        } catch (\Exception $e) {
+            // Manejar la excepción o responder con un mensaje de error
+            return redirect()->route('procesoReclamo',$id)->with('notification_type', 'danger')->with('notification_message', 'Error al rechazar el reclamo: ' . $e->getMessage());
+            #return redirect()->route('orders.index')->with('error', 'Error al crear el pedido: ' . $e->getMessage());
+        }
+        
+    }
+    public function reclamo_buscar(Request $request){
+        $response['data'] = Reclamo::with('responsable_rechazo')->find($request->input('id'));
+        return response()->json($response);
     }
 }
 

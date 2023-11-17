@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CentrosCompetenciaSeeder::class);
         $this->call(SeccionesSeeder::class);
         $this->call(OrigenesReclamosSeeders::class);
+        $this->call(MotivosRechazosSeeders::class);
     }
 }

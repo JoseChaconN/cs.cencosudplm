@@ -9,7 +9,7 @@ use App\Models\Proveedor;
 use App\Models\Tienda;
 use App\Models\Seccion;
 use App\Models\User;
-
+use App\Notifications\RecallNotification;
 use App\Services\AppServiceProvider;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -358,7 +358,7 @@ class RecallsController extends BaseController
 			->get();
 		return view('recalls.list-recall', $data);
 	}
-	function recall_PDF($id)
+	public function recall_PDF($id)
     {
         #User::with('sections','cc','tiendas')->findOrFail($id);
         $recall = Recall::with('tienda','responsable')->findOrFail($id);
@@ -377,7 +377,7 @@ class RecallsController extends BaseController
         #return $pdf->stream();
         return $pdf->download('recall_'.$recall->id.'.pdf');
     }
-	function respuesta_recall_PDF($id)
+	public function respuesta_recall_PDF($id)
     {
         #User::with('sections','cc','tiendas')->findOrFail($id);
         $respuesta_recall = RecallRespuesta::with('recall')->findOrFail($id);
@@ -395,5 +395,28 @@ class RecallsController extends BaseController
         
         #return $pdf->stream();
         return $pdf->download('recall_respuesta_'.$respuesta_recall->recall->id.'.pdf');
+    }
+	public function recall_notificar_nuevo(Request $request){
+		$data = Recall::find($request->input('id'));
+		$cadenas = [$data->cadena];
+		if($data->cadena == 'JUMBO'){
+			$roles = ['tecnólogo'];
+		}
+		if($data->cadena == 'SISA'){
+			$roles = ['supervisor'];
+		}
+		if($data->cadena == 'AMBAS'){
+			$cadenas = ['JUMBO','SISA'];
+			$roles = ['supervisor', 'tecnólogo'];
+		}
+        $usuarios = User::with('roles')
+                                    ->whereIn('area', $cadenas)
+                                    ->whereHas('roles', function ($query) use ($roles) {
+                                        $query->whereIn('name', $roles);
+                                    })->get();  // Obtén los usuarios a notificar
+        foreach ($usuarios as $usuario) {
+            $usuario->notify(new RecallNotification('new',$usuario,$data));
+        }
+        return response()->json(['success' => TRUE]);
     }
 }

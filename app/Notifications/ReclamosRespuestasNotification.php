@@ -30,7 +30,7 @@ class ReclamosRespuestasNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['mail','database'];
     }
 
     /**
@@ -43,7 +43,7 @@ class ReclamosRespuestasNotification extends Notification
             ->line('Se ha creado un nuevo reclamo.')
             ->action('Ver Reclamo', url(''))
             ->line('Gracias por utilizar nuestra plataforma.'); */
-                                 ->subject('Nuevo reclamo')
+                                ->subject('Nuevo reclamo')
                                 ->view('reclamos.emails.notificar-respuesta-reclamo', ['user' => $this->user,'reclamo' => $this->reclamo]); 
     }
 

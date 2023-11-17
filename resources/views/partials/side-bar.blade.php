@@ -37,7 +37,7 @@
             <div id="collapseReclamos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('preReclamo') }}">Reclamos Nuevos</a>
-                    @hasanyrole('admin|supervisor')
+                    @hasanyrole('admin|supervisor|tienda')
                         <a class="collapse-item" href="{{ route('listAprobarReclamo') }}">Reclamos por Aprobar</a>
                     @endhasanyrole
                     @hasanyrole('admin|administrador|tecnólogo|supervisor')

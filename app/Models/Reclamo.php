@@ -34,6 +34,10 @@ class Reclamo extends Model implements HasMedia
     {
         return $this->hasOne(User::class,'id','responsable_cierre')->withDefault();
     }
+    public function responsable_rechazo(): HasOne
+    {
+        return $this->hasOne(User::class,'id','id_responsable_rechazo')->withDefault();
+    }
     public function origen_reclamo(): HasOne
     {
         #return $this->belongsTo(Tienda::class,'COLUMAN EN TABLA LOCAL' , 'COLUMNA EN TABLA DONDE SE BUSCA');

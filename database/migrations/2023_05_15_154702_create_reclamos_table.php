@@ -72,6 +72,9 @@ return new class extends Migration
             $table->string('tipo_reclamo')->nullable();
             $table->integer('id_responsable')->nullable();
             $table->integer('id_aprobador')->nullable();
+            $table->integer('id_responsable_rechazo')->unsigned()->nullable();
+            $table->string('mensaje_rechazo', 250)->nullable();
+            $table->date('fecha_rechazo')->nullable();
             $table->string('nombre_cliente')->nullable();
             $table->string('telefono_cliente')->nullable();
             $table->string('mail_cliente')->nullable();

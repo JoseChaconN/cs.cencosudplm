@@ -366,312 +366,313 @@
 								</div>
 							</div>
 						</div>
-					</div>					
-	        		<div class="col-md-12">
-	        			<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Contacto con cliente</h6>
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">Primer contacto:</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" style="resize: none;" name="obs_cliente" rows="3" placeholder="">{{ old('obs_cliente' , $reclamo->obs_cliente)}}</textarea>
-							</div>
-						</div>
 					</div>
-					<div class="col-md-12">
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">Segundo contacto:</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" style="resize: none;" name="obs_cliente_2" rows="3" placeholder="">{{ old('obs_cliente_2' , $reclamo->obs_cliente_2)}}</textarea>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12">
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">Tercer contacto:</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" style="resize: none;" name="obs_cliente_3" rows="3" placeholder="">{{ old('obs_cliente_3' , $reclamo->obs_cliente_3)}}</textarea>
-							</div>
-						</div>
-					</div>
-					@if(session('u_area') == 'ATENTO')
+					@if ($reclamo->status != 'APROBAR')
 						<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Mensaje de Alerta Servicio al cliente:</label>
+							<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Contacto con cliente</h6>
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">Primer contacto:</label>
 								<div class="col-sm-8">
-									<textarea class="form-control" style="resize: none;" name="mensaje_atento" id="mensaje_atento" rows="3" placeholder="">{{ old('mensaje_atento' , $reclamo->mensaje_atento)}}</textarea>
-								</div>
-							</div>
-						</div>
-	        		@endif
-	        		@if(session('u_area') != 'ATENTO' && !empty($reclamo->mensaje_atento))
-						<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Mensaje de Alerta Servicio al cliente:</label>
-								<div class="col-sm-8">
-									<p>{{ $reclamo->mensaje_atento}}<input type="hidden" name="mensaje_atento" value="{{ $reclamo->mensaje_atento}}"></p>
-								</div>
-							</div>
-						</div>
-	        		@endif
-	        		<div class="col-md-12">
-		        			<hr class="sidebar-divider">
-		        		</div>
-	        		<div class="col-md-12">
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">¿Derivar a proveedor?</label>
-							<div class="col-sm-8">
-								<select class="form-control selectChange" name="aplica_proveedor_derivar" onchange="(this.value == 'sí') ? $('.datos_proveedor').show() : $('.datos_proveedor').hide()">
-							        <option value="">Seleccione</option>
-							        <option {{ $reclamo->aplica_proveedor_derivar == 'sí' ? 'selected' : '' }} value="sí">Sí</option>
-							        <option {{ $reclamo->aplica_proveedor_derivar == 'no' ? 'selected' : '' }} value="no">No</option>
-							    </select>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12 datos_proveedor">
-						<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Contacto con Proveedor</h6>
-						<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Fecha de contacto:</label>
-								<div class="col-sm-8">
-									<input type="date" name="fecha_contacto_prov" class="form-control" value="{{ old('fecha_contacto_prov' , $reclamo->fecha_contacto_prov)}}">
-								</div>
-							</div>
-		        		</div>
-		        		<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Observaciones:</label>
-								<div class="col-sm-8">
-									<textarea class="form-control" style="resize: none;" name="observaciones_prov" rows="3" placeholder="">{{ old('observaciones_prov' , $reclamo->obs_prov)}}</textarea>
-								</div>
-							</div>
-						</div>
-						<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Respuesta o Informe</h6>
-						<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Fecha de respuesta:</label>
-								<div class="col-sm-8">
-									<input type="date" name="fecha_respuesta_prov" class="form-control" value="{{ old('fecha_respuesta_prov' , $reclamo->fecha_respuesta_prov)}}">
-								</div>
-							</div>
-		        		</div>
-		        		<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Acciones Correctivas Implementadas:</label>
-								<div class="col-sm-8">
-									<input type="text" name="acciones_prov" class="form-control" value="{{ old('acciones_prov' , $reclamo->acciones_prov)}}">
+									<textarea class="form-control" style="resize: none;" name="obs_cliente" rows="3" placeholder="">{{ old('obs_cliente' , $reclamo->obs_cliente)}}</textarea>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">¿Responsabilidad de proveedor:?</label>
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">Segundo contacto:</label>
 								<div class="col-sm-8">
-									<select class="form-control" name="aplica_proveedor">
-								        <option value="">Seleccione</option>
-								        <option {{ $reclamo->aplica_proveedor == 'sí' ? 'selected' : '' }} value="sí">Sí</option>
-								        <option {{ $reclamo->aplica_proveedor == 'no' ? 'selected' : '' }} value="no">No</option>
-								    </select>
+									<textarea class="form-control" style="resize: none;" name="obs_cliente_2" rows="3" placeholder="">{{ old('obs_cliente_2' , $reclamo->obs_cliente_2)}}</textarea>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12">
-		        			<div class="form-group row">
-								<label class="col-sm-4 col-form-label font-weight-bold">Observación de por qué no aplica:</label>
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">Tercer contacto:</label>
 								<div class="col-sm-8">
-									<input type="text" name="no_observacion" class="form-control" value="{{ old('no_observacion' , $reclamo->no_obs)}}">
+									<textarea class="form-control" style="resize: none;" name="obs_cliente_3" rows="3" placeholder="">{{ old('obs_cliente_3' , $reclamo->obs_cliente_3)}}</textarea>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">
-		        			<hr class="sidebar-divider">
-		        		</div>
-					</div>
-					<div class="col-md-12">
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">Investigación Técnica de Aseguramiento de Calidad:</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" style="resize: none;" name="obs_general"  rows="3" placeholder="">{{ old('obs_general' , $reclamo->obs_general)}}</textarea>
-							</div>
-						</div>
-	        		</div>
-	        		<div class="col-md-12">
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">Observaciones Logística / Importados:</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" style="resize: none;" name="msj_log_imp" rows="3" placeholder="">{{ old('msj_log_imp' , $reclamo->msj_log_imp)}}</textarea>
-							</div>
-						</div>
-	        		</div>
-	        		<div class="col-md-12">
-	        			<div class="form-group row">
-							<label class="col-sm-4 col-form-label font-weight-bold">Gestión presencial:</label>
-							<div class="col-sm-8">
-								<select class="form-control" name="doble_garantia">
-									<option value="">Seleccione</option>
-									<option {{ $reclamo->doble_garantia == 'Doble Garantía' ? 'selected' : '' }} value="Doble Garantía">Doble Garantía</option>
-									<option {{ $reclamo->doble_garantia == 'Cambio Simple' ? 'selected' : '' }} value="Cambio Simple">Cambio Simple</option>
-									<option {{ $reclamo->doble_garantia == 'Devolución de Dinero' ? 'selected' : '' }} value="Devolución de Dinero">Devolución de Dinero</option>
-									<option {{ $reclamo->doble_garantia == 'Otro' ? 'selected' : '' }} value="Otro">Otro</option>
-							    </select>
-							</div>
-						</div>
-					</div>
-	        		<div class="col-md-12 mb-4">
-		        		<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Documentos e imágenes del reclamo.</h6>
-		        		<small class="form-text text-muted">Usted podrá subir máximo 6 documentos y 6 imágenes.</small>
-		        	</div>
-	        		<div class="col-md-6">
-	        			<h6>Documentos</h6>
-	        			<button class="btn btn-primary btn-icon-split btn-sm" type="button" onclick="fnAddMoreDocumentos()">
-		                    <span class="icon text-white-50">
-		                        <i class="fas fa-plus"></i>
-		                    </span>
-		                    <span class="text">Agregar Documentos</span>
-		                </button>
-		                <div class="col-md-12">
-		        			<hr class="sidebar-divider">
-		        		</div>
-		                <div class="col-md-12 mb-4" id="documento_" style="display:none;">
-		                	<label>Documento:</label>
-		                	<button class="btn-danger btn-circle btn-sm btn-delete-documento"><i class="fas fa-trash"></i></button>
-		                	<div class="custom-file">
-							  <input type="file" class="custom-file-input documento_reclamo">
-							  <label class="custom-file-label" >Buscar Archivo</label>
-							</div>
-		                </div>
-		                <div class="documentos-div">
-							@if(!empty($reclamo->getMedia('documentos_reclamos')))
-								@foreach ($reclamo->getMedia('documentos_reclamos') as $item)
-									<div class="col-md-12 mb-4" >
-										<a class="btn btn-success" href="{{$item->getUrl()}}">Descargar Documento</a>
-										<!--button class="btn-danger btn-circle btn-sm btn-delete-documento" onclick="$('#divDoc_').remove()"><i class="fas fa-trash"></i></button-->
+						@if(session('u_area') == 'ATENTO')
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Mensaje de Alerta Servicio al cliente:</label>
+									<div class="col-sm-8">
+										<textarea class="form-control" style="resize: none;" name="mensaje_atento" id="mensaje_atento" rows="3" placeholder="">{{ old('mensaje_atento' , $reclamo->mensaje_atento)}}</textarea>
 									</div>
-								@endforeach
-		                	@endif
-		                </div>
-	        		</div>
-	        		<div class="col-md-6 border-left-dark">
-	        			<h6>Imágenes</h6>
-	        			<button class="btn btn-primary btn-icon-split btn-sm" type="button" onclick="fnAddMoreImagenes()">
-		                    <span class="icon text-white-50">
-		                        <i class="fas fa-plus"></i>
-		                    </span>
-		                    <span class="text">Agregar Imágenes</span>
-		                </button>
-		                <div class="col-md-12">
-		        			<hr class="sidebar-divider">
-		        		</div>
-		                <div class="col-md-12 mb-4" id="imagen_" style="display:none;">
-		                	<label>Imagen:</label>
-		                	<button class="btn-danger btn-circle btn-sm btn-delete-imagen"><i class="fas fa-trash"></i></button>
-		                	<div class="custom-file">
-							  <input type="file" class="custom-file-input imagen_reclamo">
-							  <label class="custom-file-label" >Subir Imagen</label>
+								</div>
 							</div>
-		                </div>
-		                <div class="imagenes-div">
-		                	@if(!empty($reclamo->getMedia('imagenes_reclamos')))
-								@foreach ($reclamo->getMedia('imagenes_reclamos') as $item)
-									<div class="col-md-12 mb-4" >
-										<a class="btn btn-success" target="_blank" href="{{$item->getUrl()}}" download="">Descargar Imagen</a>
-										<!--button class="btn-danger btn-circle btn-sm btn-delete-documento" onclick="$('#divDoc_').remove()"><i class="fas fa-trash"></i></button-->
+						@endif
+						@if(session('u_area') != 'ATENTO' && !empty($reclamo->mensaje_atento))
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Mensaje de Alerta Servicio al cliente:</label>
+									<div class="col-sm-8">
+										<p>{{ $reclamo->mensaje_atento}}<input type="hidden" name="mensaje_atento" value="{{ $reclamo->mensaje_atento}}"></p>
 									</div>
-								@endforeach
-		                	@endif
-		                </div>
-	        		</div>
-
-	        		<div class="col-md-12 mt-4">
-	        			<div class="card shadow mb-4">
-					        <div class="card-header py-3">
-					            <h6 class="m-0 font-weight-bold text-warning">Otros locales con mismo problema 
-					            	@if($reclamo->id_responsable == Auth::user()->id || in_array($reclamo->id_local,session('u_tiendas_sup'))) 
-					            		<button class="btn btn-primary" type="button" onclick="fnAddMoreProblemaTienda()">Agregar Respuesta</button> - 
-					            	@endif 
-					            	<a class="btn btn-success" href="{{route('reclamos.respuestas-local',$reclamo->id)}}" target="_blank">Descargar Respuestas</a></h6>
-					        </div>
-						    <div class="card-body border-left-warning" id="localesConProblemaDiv">
-						        <div class="row">
-						        	<div class="col-md-12">
-						        		<table class="table table-sm table-bordered table-striped table-hover" width="100%" cellspacing="0">
-					                        <thead>
-					                            <tr>
-					                                <th>Nombre de usuario</th>
-					                                <th>Fecha de respuesta</th>
-					                                <th>Tienda</th>					                                
-													<th>Resultado</th>
-													<th>Lote</th>
-													<th>Fecha elaboración</th>
-													<th>Fecha vencimiento</th>
-													<th>Cantidad</th>
-													<th>Unidad de medida</th>
-													<th>Medio de retiro</th>
-													<th>X</th>
-					                            </tr>
-					                        </thead>
-					                        <tbody class="tiendasProblemaTBody">
-					                        	<tr id="tr_" class="d-none">
-													<td>
-														{{session('u_nombre').' '.session('u_apellido')}}
-														<input type="hidden" class="form-control input-sm usuario_problema_tienda" value="{{Auth::user()->id}}">
-													</td>
-												    <td>{{date('d-m-Y')}}</td>
-												    <td>{{session('u_codigo_tienda').' - '.session('u_nombre_tienda')}}
-														<input type="hidden" class="form-control input-sm id_tienda_problema_tienda" value="{{Auth::user()->id}}">
-													</td>
-													<td>
-														<select class="form-control form-control-sm resultado_problema_tienda">
-															<option value="">Seleccione Problema</option>
-															<option value="Con Problema">Con Problema</option>
-															<option value="Sin Problema">Sin Problema</option>
-															<option value="Sin Stock">Sin Stock</option>
-														</select>
-													</td>
-													<td><input type="text" class="form-control form-control-sm lote_problema_tienda"></td>
-													<td><input type="text" class="form-control form-control-sm fecha_elab_problema_tienda"></td>
-													<td><input type="text" class="form-control form-control-sm fecha_venc_problema_tienda"></td>
-													<td><input type="number" class="form-control form-control-sm cantidad_problema_tienda inputDecimal"></td>
-													<td>
-														<select class="form-control form-control-sm unidad_cantidad_problema_tienda">
-													        <option value="">Seleccione</option>
-													        <option value="unidad">Unidad/s</option>
-													        <option value="caja">Caja/s</option>
-													        <option value="Kg">Kg</option>
-													    </select>
-													</td>
-													<td>
-														<select class="form-control form-control-sm retiro_problema_tienda">
-													        <option value="">Seleccione</option>
-													        <option value="Directo">Directo</option>
-													        <option value="Centralizado">Centralizado</option>
-													    </select>
-													</td>
-													<td>
-														<button class="btn-danger btn-circle btn-sm btn-delete-problema-tienda"><i class="fas fa-trash"></i></button>
-													</td>
-												</tr>
-												@foreach($locales_problemas as $row)
+								</div>
+							</div>
+						@endif
+						<div class="col-md-12">
+								<hr class="sidebar-divider">
+							</div>
+						<div class="col-md-12">
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">¿Derivar a proveedor?</label>
+								<div class="col-sm-8">
+									<select class="form-control selectChange" name="aplica_proveedor_derivar" onchange="(this.value == 'sí') ? $('.datos_proveedor').show() : $('.datos_proveedor').hide()">
+										<option value="">Seleccione</option>
+										<option {{ $reclamo->aplica_proveedor_derivar == 'sí' ? 'selected' : '' }} value="sí">Sí</option>
+										<option {{ $reclamo->aplica_proveedor_derivar == 'no' ? 'selected' : '' }} value="no">No</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 datos_proveedor">
+							<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Contacto con Proveedor</h6>
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Fecha de contacto:</label>
+									<div class="col-sm-8">
+										<input type="date" name="fecha_contacto_prov" class="form-control" value="{{ old('fecha_contacto_prov' , $reclamo->fecha_contacto_prov)}}">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Observaciones:</label>
+									<div class="col-sm-8">
+										<textarea class="form-control" style="resize: none;" name="observaciones_prov" rows="3" placeholder="">{{ old('observaciones_prov' , $reclamo->obs_prov)}}</textarea>
+									</div>
+								</div>
+							</div>
+							<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Respuesta o Informe</h6>
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Fecha de respuesta:</label>
+									<div class="col-sm-8">
+										<input type="date" name="fecha_respuesta_prov" class="form-control" value="{{ old('fecha_respuesta_prov' , $reclamo->fecha_respuesta_prov)}}">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Acciones Correctivas Implementadas:</label>
+									<div class="col-sm-8">
+										<input type="text" name="acciones_prov" class="form-control" value="{{ old('acciones_prov' , $reclamo->acciones_prov)}}">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">¿Responsabilidad de proveedor:?</label>
+									<div class="col-sm-8">
+										<select class="form-control" name="aplica_proveedor">
+											<option value="">Seleccione</option>
+											<option {{ $reclamo->aplica_proveedor == 'sí' ? 'selected' : '' }} value="sí">Sí</option>
+											<option {{ $reclamo->aplica_proveedor == 'no' ? 'selected' : '' }} value="no">No</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group row">
+									<label class="col-sm-4 col-form-label font-weight-bold">Observación de por qué no aplica:</label>
+									<div class="col-sm-8">
+										<input type="text" name="no_observacion" class="form-control" value="{{ old('no_observacion' , $reclamo->no_obs)}}">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<hr class="sidebar-divider">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">Investigación Técnica de Aseguramiento de Calidad:</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" style="resize: none;" name="obs_general"  rows="3" placeholder="">{{ old('obs_general' , $reclamo->obs_general)}}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">Observaciones Logística / Importados:</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" style="resize: none;" name="msj_log_imp" rows="3" placeholder="">{{ old('msj_log_imp' , $reclamo->msj_log_imp)}}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label font-weight-bold">Gestión presencial:</label>
+								<div class="col-sm-8">
+									<select class="form-control" name="doble_garantia">
+										<option value="">Seleccione</option>
+										<option {{ $reclamo->doble_garantia == 'Doble Garantía' ? 'selected' : '' }} value="Doble Garantía">Doble Garantía</option>
+										<option {{ $reclamo->doble_garantia == 'Cambio Simple' ? 'selected' : '' }} value="Cambio Simple">Cambio Simple</option>
+										<option {{ $reclamo->doble_garantia == 'Devolución de Dinero' ? 'selected' : '' }} value="Devolución de Dinero">Devolución de Dinero</option>
+										<option {{ $reclamo->doble_garantia == 'Otro' ? 'selected' : '' }} value="Otro">Otro</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 mb-4">
+							<h6 class="m-0 font-weight-bold text-{{ $color_form }}">Documentos e imágenes del reclamo.</h6>
+							<small class="form-text text-muted">Usted podrá subir máximo 6 documentos y 6 imágenes.</small>
+						</div>
+						<div class="col-md-6">
+							<h6>Documentos</h6>
+							<button class="btn btn-primary btn-icon-split btn-sm" type="button" onclick="fnAddMoreDocumentos()">
+								<span class="icon text-white-50">
+									<i class="fas fa-plus"></i>
+								</span>
+								<span class="text">Agregar Documentos</span>
+							</button>
+							<div class="col-md-12">
+								<hr class="sidebar-divider">
+							</div>
+							<div class="col-md-12 mb-4" id="documento_" style="display:none;">
+								<label>Documento:</label>
+								<button class="btn-danger btn-circle btn-sm btn-delete-documento"><i class="fas fa-trash"></i></button>
+								<div class="custom-file">
+								<input type="file" class="custom-file-input documento_reclamo">
+								<label class="custom-file-label" >Buscar Archivo</label>
+								</div>
+							</div>
+							<div class="documentos-div">
+								@if(!empty($reclamo->getMedia('documentos_reclamos')))
+									@foreach ($reclamo->getMedia('documentos_reclamos') as $item)
+										<div class="col-md-12 mb-4" >
+											<a class="btn btn-success" href="{{$item->getUrl()}}">Descargar Documento</a>
+											<!--button class="btn-danger btn-circle btn-sm btn-delete-documento" onclick="$('#divDoc_').remove()"><i class="fas fa-trash"></i></button-->
+										</div>
+									@endforeach
+								@endif
+							</div>
+						</div>
+						<div class="col-md-6 border-left-dark">
+							<h6>Imágenes</h6>
+							<button class="btn btn-primary btn-icon-split btn-sm" type="button" onclick="fnAddMoreImagenes()">
+								<span class="icon text-white-50">
+									<i class="fas fa-plus"></i>
+								</span>
+								<span class="text">Agregar Imágenes</span>
+							</button>
+							<div class="col-md-12">
+								<hr class="sidebar-divider">
+							</div>
+							<div class="col-md-12 mb-4" id="imagen_" style="display:none;">
+								<label>Imagen:</label>
+								<button class="btn-danger btn-circle btn-sm btn-delete-imagen"><i class="fas fa-trash"></i></button>
+								<div class="custom-file">
+								<input type="file" class="custom-file-input imagen_reclamo">
+								<label class="custom-file-label" >Subir Imagen</label>
+								</div>
+							</div>
+							<div class="imagenes-div">
+								@if(!empty($reclamo->getMedia('imagenes_reclamos')))
+									@foreach ($reclamo->getMedia('imagenes_reclamos') as $item)
+										<div class="col-md-12 mb-4" >
+											<a class="btn btn-success" target="_blank" href="{{$item->getUrl()}}" download="">Descargar Imagen</a>
+											<!--button class="btn-danger btn-circle btn-sm btn-delete-documento" onclick="$('#divDoc_').remove()"><i class="fas fa-trash"></i></button-->
+										</div>
+									@endforeach
+								@endif
+							</div>
+						</div>
+						<div class="col-md-12 mt-4">
+							<div class="card shadow mb-4">
+								<div class="card-header py-3">
+									<h6 class="m-0 font-weight-bold text-warning">Otros locales con mismo problema 
+										@if($reclamo->id_responsable == Auth::user()->id || in_array($reclamo->id_local,session('u_tiendas_sup'))) 
+											<button class="btn btn-primary" type="button" onclick="fnAddMoreProblemaTienda()">Agregar Respuesta</button> - 
+										@endif 
+										<a class="btn btn-success" href="{{route('reclamos.respuestas-local',$reclamo->id)}}" target="_blank">Descargar Respuestas</a></h6>
+								</div>
+								<div class="card-body border-left-warning" id="localesConProblemaDiv">
+									<div class="row">
+										<div class="col-md-12">
+											<table class="table table-sm table-bordered table-striped table-hover" width="100%" cellspacing="0">
+												<thead>
 													<tr>
-														<td>{{$row->name.' '.$row->last_name}}</td>
-													    <td>{{date('d-m-Y',strtotime($row->created_at))}}</td>
-													    <td>{{$row->nombre.' '.$row->codigo}}</td>
-														<td>{{$row->resultado}}</td>
-														<td>{{$row->lote}}</td>
-														<td>{{$row->fecha_elab}}</td>
-														<td>{{$row->fecha_venc}}</td>
-														<td>{{$row->cantidad}}</td>
-														<td>{{$row->unidad_cantidad}}</td>
-														<td>{{$row->retiro}}</td>
-														<td></td>
+														<th>Nombre de usuario</th>
+														<th>Fecha de respuesta</th>
+														<th>Tienda</th>					                                
+														<th>Resultado</th>
+														<th>Lote</th>
+														<th>Fecha elaboración</th>
+														<th>Fecha vencimiento</th>
+														<th>Cantidad</th>
+														<th>Unidad de medida</th>
+														<th>Medio de retiro</th>
+														<th>X</th>
 													</tr>
-												@endforeach
-					                        </tbody>
-										</table>
-						        	</div>
-						        </div>
-						    </div>
+												</thead>
+												<tbody class="tiendasProblemaTBody">
+													<tr id="tr_" class="d-none">
+														<td>
+															{{session('u_nombre').' '.session('u_apellido')}}
+															<input type="hidden" class="form-control input-sm usuario_problema_tienda" value="{{Auth::user()->id}}">
+														</td>
+														<td>{{date('d-m-Y')}}</td>
+														<td>{{session('u_codigo_tienda').' - '.session('u_nombre_tienda')}}
+															<input type="hidden" class="form-control input-sm id_tienda_problema_tienda" value="{{Auth::user()->id}}">
+														</td>
+														<td>
+															<select class="form-control form-control-sm resultado_problema_tienda">
+																<option value="">Seleccione Problema</option>
+																<option value="Con Problema">Con Problema</option>
+																<option value="Sin Problema">Sin Problema</option>
+																<option value="Sin Stock">Sin Stock</option>
+															</select>
+														</td>
+														<td><input type="text" class="form-control form-control-sm lote_problema_tienda"></td>
+														<td><input type="text" class="form-control form-control-sm fecha_elab_problema_tienda"></td>
+														<td><input type="text" class="form-control form-control-sm fecha_venc_problema_tienda"></td>
+														<td><input type="number" class="form-control form-control-sm cantidad_problema_tienda inputDecimal"></td>
+														<td>
+															<select class="form-control form-control-sm unidad_cantidad_problema_tienda">
+																<option value="">Seleccione</option>
+																<option value="unidad">Unidad/s</option>
+																<option value="caja">Caja/s</option>
+																<option value="Kg">Kg</option>
+															</select>
+														</td>
+														<td>
+															<select class="form-control form-control-sm retiro_problema_tienda">
+																<option value="">Seleccione</option>
+																<option value="Directo">Directo</option>
+																<option value="Centralizado">Centralizado</option>
+															</select>
+														</td>
+														<td>
+															<button class="btn-danger btn-circle btn-sm btn-delete-problema-tienda"><i class="fas fa-trash"></i></button>
+														</td>
+													</tr>
+													@foreach($locales_problemas as $row)
+														<tr>
+															<td>{{$row->name.' '.$row->last_name}}</td>
+															<td>{{date('d-m-Y',strtotime($row->created_at))}}</td>
+															<td>{{$row->nombre.' '.$row->codigo}}</td>
+															<td>{{$row->resultado}}</td>
+															<td>{{$row->lote}}</td>
+															<td>{{$row->fecha_elab}}</td>
+															<td>{{$row->fecha_venc}}</td>
+															<td>{{$row->cantidad}}</td>
+															<td>{{$row->unidad_cantidad}}</td>
+															<td>{{$row->retiro}}</td>
+															<td></td>
+														</tr>
+													@endforeach
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-	        		</div>
+					@endif
 	        	</div>
 	        </div>
 	        <div class="card-footer">
@@ -706,7 +707,7 @@
 				@if ($reclamo->status == 'APROBAR')
 					<div class="row">
 						<div class="col-md-6">
-							<button class="btn btn-success btn-icon-split" type="button" onclick="$('#status').val('PROCESO');$('#reclamoForm').submit();">
+							<button class="btn btn-primary btn-icon-split" type="button" onclick="$('#status').val('APROBADO');$('#reclamoForm').submit();">
 								<span class="icon text-white-50">
 									<i class="fa fa-check"></i>
 								</span>
@@ -714,7 +715,7 @@
 							</button>
 						</div>
 						<div class="col-md-6 text-right">
-							<button class="btn btn-danger btn-icon-split" type="button" onclick="$('#status').val('RECHAZADO');$('#reclamoForm').submit();">
+							<button class="btn btn-danger btn-icon-split" type="button" data-toggle="modal" data-target="#rechazarReclamoModal">
 								<span class="icon text-white-50">
 									<i class="fa fa-times"></i>
 								</span>
@@ -723,11 +724,13 @@
 						</div>
 					</div>
 				@endif
-	        	
 	        </div>
         </form>
     </div>
 </div>
+@if ($reclamo->status == 'APROBAR')
+	@include('reclamos.components.rechazar-reclamo-modal')
+@endif
 @include('reclamos.components.notificar-reclamo-modal')
 <script type="text/javascript">
 	@if(session('status'))
