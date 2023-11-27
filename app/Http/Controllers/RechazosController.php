@@ -140,6 +140,7 @@ class RechazosController extends BaseController
             $rechazo->update($rechazo_data);
         }
         RechazoProducto::where('id_rechazo',$id)->delete();
+        
         $allowedTypes = app('filetypes')['image'];
         foreach ($producto as $key => $value) {
             $fotos_prod_array[$value]=[];
@@ -292,5 +293,4 @@ class RechazosController extends BaseController
         
         #return to_route('nombre_ruta');
     }
-
 }

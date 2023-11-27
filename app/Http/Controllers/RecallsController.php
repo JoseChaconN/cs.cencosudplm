@@ -116,8 +116,17 @@ class RecallsController extends BaseController
 			'fecha_vencimiento' => json_encode($fecha_vencimiento_array),
 			'pais' => 2,
 		]);
-		$imagen_recall=(!empty($request->file('imagen_recall'))) ? $request->file('imagen_recall') : [];
-        $allowedImageTypes = app('filetypes')['image'];
+		#$imagen_recall=(!empty($request->file('imagen_recall'))) ? $request->file('imagen_recall') : [];
+		$imagen_recall = $request->file('imagen_recall');
+        if(!empty($imagen_recall)){
+            foreach ($imagen_recall as $doc) {
+                if ($doc->isValid()) {
+                    // Guarda la imagen en la librería de medios del producto
+                    $recall->addMedia($doc)->toMediaCollection('imagenes-recall');
+                }
+            }
+        }
+       /*  $allowedImageTypes = app('filetypes')['image'];
 		$imagen_adjunto_array=[];
         foreach ($imagen_recall as $foto) {
             if (!$foto->extension() || !in_array($foto->extension(), $allowedImageTypes)) {
@@ -133,7 +142,7 @@ class RecallsController extends BaseController
         }
 		if(count($imagen_adjunto_array) > 0){
 			$recall->update(['imagen_recall' => json_encode($imagen_adjunto_array)]);
-		}
+		} */
 		return redirect()->route('procesoRecall', ['id' => $recall->id])->with('notification_type', 'success')->with('notification_message', '¡Recall guardado correctamente!'); #->with('status', '¡Recall guardado correctamente!');
 	}
 	public function recall_proceso($id)

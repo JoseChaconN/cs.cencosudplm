@@ -16,11 +16,11 @@ class Recall extends Model implements HasMedia
     protected $guarded = [];
     public function tienda(): HasOne
     {        
-        return $this->hasOne(Tienda::class,'id_local','id');
+        return $this->hasOne(Tienda::class,'id','id_local');
     }
     public function responsable(): HasOne
     {
-        return $this->hasOne(User::class,'id_responsable','id');
+        return $this->hasOne(User::class,'id','id_responsable');
     }
     public function recall_respuesta(): BelongsTo
     {

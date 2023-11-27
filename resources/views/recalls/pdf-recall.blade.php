@@ -84,17 +84,17 @@
                 @endforeach
             </table>
         </div>
-        @if (!empty(json_decode($recall->imagen_recall,TRUE)))
+        @if(!empty($recall->getMedia('imagenes-recall')))
             <div class="new-page"></div>
             <img src="{{public_path('/img/header-pdf.png')}}" class="header" alt="">
             <h3 style="margin-top:-5%;color:white;">Recall en Proceso N° {{$recall->id}}</h3>
             <div class="section">
                 <h4>Imágenes del Recall</h4>
-                @foreach (json_decode($recall->imagen_recall,TRUE) as $key => $value)
-                    <img src="{{asset(Storage::disk('recalls')->url($value['name']))}}" style="max-height: 300px;max-width: auto;">
+                @foreach ($recall->getMedia('imagenes-recall') as $item)
+                    <img src="{{$item->getUrl()}}" style="max-height: 300px;max-width: auto;">
                     <br>
                     <br>
-                @endforeach            
+                @endforeach
             </div>
         @endif
     </body>
