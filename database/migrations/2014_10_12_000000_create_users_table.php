@@ -32,7 +32,7 @@ return new class extends Migration
             $table->integer('status')->default(1);            
         });
         DB::table('users')->insert([
-                ['name' => 'Jose','last_name' => 'Chacon', 'email' => 'sischaconn@gmail.com', 'password' =>bcrypt('cencosud'), 'cargo' => 'Administrador', 'created_at' => now(),'updated_at' => now() , 'root' => 1]
+                ['name' => 'Admin','last_name' => 'Admin', 'email' => 'admin@admin.com', 'password' =>bcrypt('cencosud'), 'cargo' => 'Administrador', 'created_at' => now(),'updated_at' => now() , 'root' => 1]
             ]
         );
     }
