@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Proveedor extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'Proveedores';
+    protected $table = 'proveedores';
     protected $guarded = [];
     public function secciones_proveedor(): HasMany
     {

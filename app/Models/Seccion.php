@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Seccion extends Model
 {
     use HasFactory ,SoftDeletes;
-    protected $table = 'Secciones';
+    protected $table = 'secciones';
     protected $guarded = [];
     public function reclamo(): HasOne
     {
