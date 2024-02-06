@@ -32,7 +32,9 @@ return new class extends Migration
             $table->integer('status')->default(1);            
         });
         DB::table('users')->insert([
-                ['name' => 'Admin','last_name' => 'Admin', 'email' => 'admin@admin.com', 'password' =>bcrypt('cencosud'), 'cargo' => 'Administrador', 'created_at' => now(),'updated_at' => now() , 'root' => 1]
+                ['name' => 'Admin','last_name' => 'Admin', 'email' => 'admin@admin.com', 'password' =>bcrypt('cencosud'), 'cargo' => 'Administrador', 'created_at' => now(),'updated_at' => now() , 'root' => 1],
+                ['name' => 'Comercial','last_name' => 'Importado', 'email' => 'comercial.importado@cencosudplm.com', 'password' =>bcrypt('cencosud'), 'cargo' => 'Comercial', 'created_at' => now(),'updated_at' => now() , 'root' => NULL],
+                ['name' => 'Calidad','last_name' => 'Importado', 'email' => 'calidad.importado@cencosudplm.com', 'password' =>bcrypt('cencosud'), 'cargo' => 'Calidad', 'created_at' => now(),'updated_at' => now() , 'root' => NULL],
             ]
         );
     }

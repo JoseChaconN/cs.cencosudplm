@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(PaisSeeder::class);
         $this->call(TiendasSeeder::class);
-        $this->call(ProductosSeeder::class);
+        #$this->call(ProductosSeeder::class);
         $this->call(ProveedoresSeeder::class);
         $this->call(CentrosCompetenciaSeeder::class);
         $this->call(SeccionesSeeder::class);
