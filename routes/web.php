@@ -155,6 +155,8 @@ Route::get('/productos/nuevo/', [ProductosController::class, 'producto_nuevo'])-
 
 Route::post('/productos/nuevo/guardar', [ProductosController::class, 'guardar_producto'])->name('guardarNuevoProducto');
 Route::patch('/productos/edit/guardar/{id}', [ProductosController::class, 'guardar_producto'])->name('guardarEditProducto');
+Route::get('/bbdd', [ProductosController::class, 'cargar_bbdd'])->name('cargarBBDD');
+
 
 //////TIENDAS////////
 Route::match(['get','post'],'/tiendas/listado', [TiendasController::class, 'tiendas_list'])->name('listTiendas');
@@ -190,8 +192,8 @@ Route::patch('/secciones/edit/guardar/{id}', [SeccionesController::class, 'guard
 
 
 //////CHART//////
-Route::get('/chartPdf', [ChartController::class, 'index']);
-Route::get('/chartPdf/ver', [ChartController::class, 'ver']);
+//Route::get('/chartPdf', [ChartController::class, 'index']);
+//Route::get('/chartPdf/ver', [ChartController::class, 'ver']);
 
 //////FRIGORIFICOS////////
 #Route::match(['get','post'],'/proveedores/listado', [ProveedoresController::class, 'proveedores_list'])->name('listProveedores');

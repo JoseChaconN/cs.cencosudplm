@@ -49,7 +49,7 @@
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
-        @hasanyrole('admin|administrador|tecnólogo')
+        @hasanyrole('admin|administrador|tecnólogo|supervisor')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRecall"
                     aria-expanded="true" aria-controls="collapseRecall">
@@ -122,7 +122,9 @@
                         <a class="collapse-item" href="{{route('listProductos')}}">Productos</a>
                         <a class="collapse-item" href="{{route('listProveedores')}}">Proveedores</a>
                         <a class="collapse-item" href="{{route('listCentrosCompetencia')}}">Centros de Competencia</a>
-                        <a class="collapse-item" href="{{route('listSecciones')}}">Secciones</a>                    
+                        <a class="collapse-item" href="{{route('listSecciones')}}">Secciones</a>
+                        <a class="collapse-item" href="{{route('cargarBBDD')}}">Subir Base de Datos <br> Productos/Proveedores</a>
+                        
                     </div>
                 </div>
             </li>

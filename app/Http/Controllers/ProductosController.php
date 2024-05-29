@@ -84,4 +84,7 @@ class ProductosController extends Controller
         $data['proveedores']= Proveedor::where('status',1)->orderBy('nombre', 'asc')->get();
         return view('productos.producto-form',$data);
     }
+    public function cargar_bbdd(){
+        return view('carga_bbdd.index');
+    }
 }
